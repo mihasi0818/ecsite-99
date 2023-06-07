@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>App</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <header class="text-gray-600 body-font">
+  <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+    <%= link_to(root_path, class: "flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0") do %>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+      </svg>
+      <span class="ml-3 text-xl">mihasiEC</span>
+    <% end %>
+    <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400 flex flex-wrap items-center text-base justify-center">
+
+      <% if seller_signed_in? %>
+  <%= link_to "ログアウト", destroy_seller_session_path, method: :delete, class: "mr-5 hover:text-gray-900" %>
+<% elsif customer_signed_in? %>
+  <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: "mr-5 hover:text-gray-900" %>
+<% else %>
+  <%= link_to "新規出品者", new_seller_registration_path, class: "mr-5 hover:text-gray-900" %>
+  <%= link_to "出品者", new_seller_session_path, class: "mr-5 hover:text-gray-900" %>
+  <%= link_to "新規ユーザー", new_customer_registration_path, class: "mr-5 hover:text-gray-900" %>
+  <%= link_to "ユーザー", new_customer_session_path, class: "mr-5 hover:text-gray-900" %>
+<% end %>
+
+  <div class="bag-icon">
+    <%= link_to products_path, class: "p-4 relative border-2 border-transparent rounded-full focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out flex" do %>
+      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    <% end %>
+  </div>
+  
+  <li class='text-white no-underline'>
+  <%= link_to cart_items_path, class: "p-4 relative border-2 border-transparent rounded-full focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out flex" do %>
+    <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+      <path fill="white" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+    </svg>
+    <span class="absolute top-0 right-0">
+      <div class="inline-flex items-center px-1.5 py-0.4 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-red-500 text-white">
+        <%= total_quantity(current_customer.cart_items) %>
+      </div>
+    </span>
+  <% end %>
+</li>
+  
+</nav>
+
+  </div>
+</header>
+
+
+    <%= yield %>
+
+  </body>
+</html>
+<style>
+   .bag-icon {
+      width: 30px;
+      height: 30px;
+      background-color: purple;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      transform: rotate(180deg);
+    }
+    
+    .bag-icon::before {
+      content: "";
+      width: 18px;
+      height: 18px;
+      background-color: white;
+      border-bottom: 4px solid purple;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 2px;
+    }
+    
+    .bag-icon::after {
+      content: "";
+      width: 2px;
+      height: 10px;
+      background-color: purple;
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  </style>
