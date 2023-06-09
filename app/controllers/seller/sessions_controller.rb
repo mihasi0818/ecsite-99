@@ -12,7 +12,13 @@ class Seller::SessionsController < Devise::SessionsController
   # def create
   #   super
   # end
-
+  def after_sign_in_path_for(resource)
+    if resource.is_a?(Seller)
+      new_seller_product_path
+    else
+      super
+    end
+  end
   # DELETE /resource/sign_out
   # def destroy
   #   super

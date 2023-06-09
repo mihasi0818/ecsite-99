@@ -76,6 +76,7 @@ gem 'jquery-rails'
 gem "tailwindcss-rails", "~> 2.0"
 gem 'mini_racer'
 gem "devise"
-gem 'dotenv-rails'
+gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'activeadmin'
 gem "cssbundling-rails", "~> 1.1"
+gem "stripe"

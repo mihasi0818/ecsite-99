@@ -1,44 +1,73 @@
 Rails.application.routes.draw do
-  namespace :customer do
-    get 'cart_items/index'
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
+  namespace :admin do
+    resources :customers, only: %i[index show]
   end
-  
-  
-    devise_for :sellers, controllers: {
+
+  namespace :customer do
+    get 'customers/confirm_withdraw'
+    resources :orders, only: %i[index show]
+    get 'orders/success', to: 'orders#success'
+    resources :cart_items, only: %i[index create destroy] do
+      member do
+        patch 'increase'
+        patch 'decrease'
+      end
+    end
+    resources :products, only: %i[index show]
+  end
+
+  devise_for :sellers, controllers: {
     sessions: 'seller/sessions',
     registrations: 'seller/registrations'
   }
+
   devise_for :customers, controllers: {
     sessions: 'customer/sessions',
     registrations: 'customer/registrations'
   }
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  root "home#top"
+  root to: 'home#top'
 
   namespace :seller do
+    root to: 'pages#home'
+    get 'orders/show'
+    get 'pages/home'
     resources :products, only: %i[index show new create edit update]
-end
-scope module: :customer do
-  resources :products, only: %i[index show]
-  resources :cart_items, only: %i[index create destroy] do
-    member do
-      patch 'increase'
-      patch 'decrease'
+    resources :orders, only: %i[show update]
+  end
+
+  scope module: :customer do
+    resources :products, only: %i[index show]
+    resources :cart_items, only: %i[index create destroy] do
+      member do
+        patch 'increase'
+        patch 'decrease'
+      end
+    end
+    resources :checkouts, only: [:create]
+    resources :webhooks, only: [:create]
+    resources :orders, only: %i[index show] do
+      collection do
+        get 'success'
+      end
+    end
+    resources :customers do
+      collection do
+        get 'confirm_withdraw'
+        patch 'withdraw'
+      end
+    end
+    resources :customers do
+      collection do
+        get 'confirm_withdraw'
+        patch 'withdraw'
+      end
     end
   end
-end
-
-namespace :customer do
-  get 'products/index'
-  get 'products/show'
-end
-namespace :seller do
-  get 'products/index'
-  get 'products/show'
-  get 'products/new'
-  get 'products/edit'
-end
-
+  
+  get '/up/', to: 'up#index', as: :up
+ get '/up/databases', to: 'up#databases', as: :up_databases
 end
