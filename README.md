@@ -1,24 +1,8 @@
-# README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
+# はじめてのecサイト
+* 最低限の機能をつけました。なぜならecサイトを作るための流れを知りたいだけだからです。
+* そして今後必要とする技術の勉強をメインとして作りました。
+# 使用した技術
+* (docker、nginx、puma、unicorn、aws、mysql、tailwind css、stripe)
 * Ruby version
+* ruby  -v3.1.4
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
