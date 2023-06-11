@@ -1,17 +1,22 @@
 FROM ruby:3.1.4
 
-# 必要なパッケージのインストールここ一番苦戦した
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    nodejs \
-    vim
+RUN apt-get update -qq && \
+    apt-get install -y build-essential \
+                       libpq-dev \
+                       nodejs \
+                       vim
 
-WORKDIR /app
+RUN mkdir /test3
 
-# GemfileとGemfile.lockをコピーしてbundle installを実行
-COPY Gemfile /app/Gemfile
-COPY Gemfile.lock /app/Gemfile.lock
+WORKDIR /test3
+
+ADD Gemfile /test3/Gemfile
+ADD Gemfile.lock /test3/Gemfile.lock
+
+RUN gem install bundler
 RUN bundle install
 
-# Railsサーバーの起動コマンドを設定
-CMD ["rails", "server", "-b", "0.0.0.0"]
+ADD . /test3
+
+RUN mkdir -p tmp/sockets
+RUN mkdir -p tmp/pids
