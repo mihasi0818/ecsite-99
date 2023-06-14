@@ -1,4 +1,4 @@
-class Admin::OrdersController < ApplicationController
+class Seller::OrdersController < ApplicationController
   before_action :authenticate_seller!
   before_action :set_order
 
