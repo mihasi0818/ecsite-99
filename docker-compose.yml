@@ -12,7 +12,8 @@ services:
 
   app:
     build: .
-    command: bundle exec puma -C config/puma.rb -e production
+    command: bundle exec puma -C config/puma.rb 
+   # command: bundle exec puma -C config/puma.rb -e production
     volumes:
       - public-data:/test3
       - tmp-data:/test3/tmp
