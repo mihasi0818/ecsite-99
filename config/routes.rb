@@ -60,14 +60,8 @@ Rails.application.routes.draw do
         patch 'withdraw'
       end
     end
-    resources :customers do
-      collection do
-        get 'confirm_withdraw'
-        patch 'withdraw'
-      end
-    end
   end
-  
-  get '/up/', to: 'up#index', as: :up
- get '/up/databases', to: 'up#databases', as: :up_databases
+
+  get '/up', to: 'up#index', as: :up
+  get '/up/databases', to: 'up#databases', as: :up_databases
 end
